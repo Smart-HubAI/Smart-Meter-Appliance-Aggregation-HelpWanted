@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validation | Ground Truth vs Predictions</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dashboard-page">
+  <div class="dashboard-wrapper">
+    <aside class="sidebar">
+      <div class="sidebar-brand"><h5><i class="bi bi-check2-square text-warning"></i> Validation</h5></div>
+      <nav class="sidebar-nav flex-column nav">
+        <a class="nav-link" href="/"><i class="bi bi-house"></i> Home</a>
+        <a class="nav-link" href="/ai"><i class="bi bi-cpu"></i> AI Dashboard</a>
+        <a class="nav-link active" href="/validation"><i class="bi bi-check2-square"></i> Validation</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <div class="top-bar mb-2">
+        <h4 class="mb-0 fs-5">Ground Truth vs Predictions</h4>
+      </div>
+
+      <div class="panel-compact mb-3">
+        <h6>Anomaly detection — metrics</h6>
+        <table class="table table-dashboard table-sm">
+          <thead><tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead>
+          <tbody>
+            {% for m in data.anomaly.models %}
+            <tr><td>{{ m.model_name }}</td><td>{{ m.accuracy }}</td><td>{{ m.precision }}</td><td>{{ m.recall }}</td><td>{{ m.f1 }}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="row g-2 mb-3">
+        {% for name, matrix in data.anomaly.confusion_matrices.items() %}
+        <div class="col-md-4">
+          <div class="panel-compact">
+            <h6 class="small">{{ name }} confusion matrix</h6>
+            <table class="table table-sm text-center mb-0">
+              <tr><td></td><td>Pred 0</td><td>Pred 1</td></tr>
+              <tr><td>True 0</td><td>{{ matrix[0][0] }}</td><td>{{ matrix[0][1] }}</td></tr>
+              <tr><td>True 1</td><td>{{ matrix[1][0] }}</td><td>{{ matrix[1][1] }}</td></tr>
+            </table>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="panel-compact mb-3">
+        <h6>Appliance identification — per consumer (%)</h6>
+        <div class="table-responsive">
+          <table class="table table-dashboard table-sm">
+            <thead>
+              <tr>
+                <th>Consumer</th>
+                <th>Category</th>
+                <th>Ground truth</th>
+                <th>Rule</th>
+                <th>ML</th>
+                <th>|GT−ML|</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for c in data.per_consumer %}
+              {% for cat in ['Air Conditioner (AC)','Refrigerator','Lighting','Television & Entertainment','Washing Machine','Water Heater / Geyser','Fans','Miscellaneous Appliances'] %}
+              <tr>
+                <td><strong>{{ c.consumer_id }}</strong></td>
+                <td>{{ cat }}</td>
+                <td>{{ c.ground_truth.get(cat, '—') }}</td>
+                <td>{{ c.rule.get(cat, '—') }}</td>
+                <td>{{ c.ml.get(cat, '—') }}</td>
+                <td>{% if c.ground_truth.get(cat) and c.ml.get(cat) %}{{ (c.ground_truth[cat] - c.ml[cat])|abs|round(1) }}{% else %}—{% endif %}</td>
+              </tr>
+              {% endfor %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="chart-card py-2">
+        <h6 class="small">Disaggregation model error (MAE)</h6>
+        <div class="chart-canvas-wrap chart-sm"><canvas id="chartValMae"></canvas></div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+    const disagg = {{ data.disaggregation.models|tojson }};
+    if (disagg.length) {
+      new Chart(document.getElementById("chartValMae"), {
+        type: "bar",
+        data: { labels: disagg.map(d => d.model_name), datasets: [{ label: "MAE", data: disagg.map(d => d.mae), backgroundColor: "#2e7d32" }] },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Frontend
+frontend/node_modules/
+node_modules/
+frontend/dist/
+frontend/build/
+dist/
+build/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Large ML models (> GitHub 100 MB limit)
+models/artifacts/disaggregation_model.pkl
+models/artifacts/disaggregation_random_forest.pkl

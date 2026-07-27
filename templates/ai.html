@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Model Dashboard | Tata Power Analytics</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dashboard-page">
+  <div class="dashboard-wrapper">
+    <aside class="sidebar">
+      <div class="sidebar-brand"><h5><i class="bi bi-cpu text-warning"></i> AI Models</h5></div>
+      <nav class="sidebar-nav flex-column nav">
+        <a class="nav-link" href="/"><i class="bi bi-house"></i> Home</a>
+        <a class="nav-link" href="/consumer"><i class="bi bi-people"></i> Consumers</a>
+        <a class="nav-link" href="/admin"><i class="bi bi-building"></i> Admin</a>
+        <a class="nav-link active" href="/ai"><i class="bi bi-cpu"></i> AI Dashboard</a>
+        <a class="nav-link" href="/validation"><i class="bi bi-check2-square"></i> Validation</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <div class="top-bar mb-2">
+        <h4 class="mb-0 fs-5">AI / ML Model Training Dashboard</h4>
+        <small class="text-muted">Tata Power Smart Meter Analytics</small>
+      </div>
+
+      <div class="row g-2 mb-3">
+        <div class="col-md-4">
+          <div class="kpi-card py-2 {% if data.models_ready.disaggregation %}success{% else %}danger{% endif %}">
+            <div class="kpi-label">Disaggregation</div>
+            <div class="kpi-value fs-6">{{ 'Ready' if data.models_ready.disaggregation else 'Not trained' }}</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="kpi-card py-2 {% if data.models_ready.anomaly %}success{% else %}danger{% endif %}">
+            <div class="kpi-label">Anomaly</div>
+            <div class="kpi-value fs-6">{{ 'Ready' if data.models_ready.anomaly else 'Not trained' }}</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="kpi-card py-2 {% if data.models_ready.bill %}success{% else %}danger{% endif %}">
+            <div class="kpi-label">Bill prediction</div>
+            <div class="kpi-value fs-6">{{ 'Ready' if data.models_ready.bill else 'Not trained' }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-compact mb-3">
+        <h6>Disaggregation models (appliance %)</h6>
+        <div class="table-responsive">
+          <table class="table table-dashboard table-sm mb-0">
+            <thead><tr><th>Model</th><th>Samples</th><th>MAE</th><th>RMSE</th><th>R²</th></tr></thead>
+            <tbody>
+              {% for m in data.disaggregation_eval.models %}
+              <tr><td>{{ m.model_name }}</td><td>{{ m.samples }}</td><td>{{ m.mae }}</td><td>{{ m.rmse }}</td><td>{{ m.r2 }}</td></tr>
+              {% else %}
+              <tr><td colspan="5" class="text-muted">Run <code>python train_disaggregation_model.py</code></td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel-compact mb-3">
+        <h6>Anomaly detection models</h6>
+        <table class="table table-dashboard table-sm mb-0">
+          <thead><tr><th>Model</th><th>Samples</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead>
+          <tbody>
+            {% for m in data.anomaly_eval.models %}
+            <tr>
+              <td>{{ m.model_name }}</td><td>{{ m.samples }}</td>
+              <td>{{ m.accuracy }}</td><td>{{ m.precision }}</td><td>{{ m.recall }}</td><td>{{ m.f1 }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6" class="text-muted">Run <code>python train_anomaly_model.py</code></td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="row g-2">
+        <div class="col-lg-6">
+          <div class="chart-card py-2 mb-0">
+            <h6 class="small mb-1">Disaggregation R² comparison</h6>
+            <div class="chart-canvas-wrap chart-sm"><canvas id="chartDisaggR2"></canvas></div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="chart-card py-2 mb-0">
+            <h6 class="small mb-1">Anomaly F1 comparison</h6>
+            <div class="chart-canvas-wrap chart-sm"><canvas id="chartAnomF1"></canvas></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+    const disagg = {{ data.disaggregation_eval.models|tojson }};
+    const anom = {{ data.anomaly_eval.models|tojson }};
+    document.addEventListener("DOMContentLoaded", function () {
+      if (disagg.length) {
+        new Chart(document.getElementById("chartDisaggR2"), {
+          type: "bar",
+          data: { labels: disagg.map(d => d.model_name), datasets: [{ label: "R²", data: disagg.map(d => d.r2), backgroundColor: "#0d47a1" }] },
+          options: { responsive: true, maintainAspectRatio: false, scales: { y: { max: 1 } } }
+        });
+      }
+      if (anom.length) {
+        new Chart(document.getElementById("chartAnomF1"), {
+          type: "bar",
+          data: { labels: anom.map(d => d.model_name), datasets: [{ label: "F1", data: anom.map(d => d.f1), backgroundColor: "#ff6f00" }] },
+          options: { responsive: true, maintainAspectRatio: false, scales: { y: { max: 1 } } }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

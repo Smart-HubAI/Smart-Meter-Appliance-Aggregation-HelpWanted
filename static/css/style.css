@@ -1,0 +1,443 @@
+/**
+ * Smart Meter Energy Analytics Platform — Utility portal theme
+ * Professional Tata Power–inspired styling
+ */
+
+:root {
+  --primary: #0d47a1;
+  --primary-dark: #002171;
+  --accent: #ff6f00;
+  --accent-light: #ffa040;
+  --success: #2e7d32;
+  --danger: #c62828;
+  --warning: #f9a825;
+  --bg-dark: #0a1628;
+  --bg-card: #ffffff;
+  --sidebar-width: 260px;
+  --text-muted: #6c757d;
+  --gradient-hero: linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #0277bd 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background-color: #f0f4f8;
+  color: #212529;
+  min-height: 100vh;
+}
+
+body.dashboard-page {
+  overflow-x: hidden;
+}
+
+/* Landing page */
+.hero-section {
+  background: var(--gradient-hero);
+  color: #fff;
+  padding: 5rem 0 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  bottom: -50px;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: #f0f4f8;
+  transform: skewY(-2deg);
+}
+
+.feature-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(13, 71, 161, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 100%;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(13, 71, 161, 0.15);
+}
+
+.feature-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), #1976d2);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.btn-primary-custom {
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.65rem 1.5rem;
+  border-radius: 8px;
+}
+
+.btn-primary-custom:hover {
+  background: var(--accent-light);
+  color: #fff;
+}
+
+/* Dashboard layout */
+.dashboard-wrapper {
+  display: flex;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--bg-dark);
+  color: #e3f2fd;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 1000;
+  padding: 1.25rem 0;
+  overflow-y: auto;
+}
+
+.sidebar-brand {
+  padding: 0 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
+}
+
+.sidebar-brand h5 {
+  margin: 0;
+  font-weight: 700;
+  color: #fff;
+}
+
+.sidebar-brand small {
+  color: #90caf9;
+  font-size: 0.75rem;
+}
+
+.sidebar-nav .nav-link {
+  color: #b0bec5;
+  padding: 0.75rem 1.25rem;
+  border-left: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sidebar-nav .nav-link:hover,
+.sidebar-nav .nav-link.active {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  border-left-color: var(--accent);
+}
+
+.main-content {
+  margin-left: var(--sidebar-width);
+  flex: 1;
+  padding: 1rem 1.5rem 2rem;
+  width: calc(100% - var(--sidebar-width));
+  min-height: auto;
+  max-width: 100%;
+}
+
+.top-bar {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* KPI cards */
+.kpi-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid var(--primary);
+  height: 100%;
+}
+
+.kpi-card.accent {
+  border-left-color: var(--accent);
+}
+
+.kpi-card.success {
+  border-left-color: var(--success);
+}
+
+.kpi-card.danger {
+  border-left-color: var(--danger);
+}
+
+.kpi-card .kpi-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.kpi-card .kpi-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chart-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1rem;
+  height: auto;
+}
+
+/* Compact panels for tables / lists (no stretch) */
+.panel-compact {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1rem;
+}
+
+.panel-compact h6 {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--primary-dark);
+}
+
+/* Equal-height cards only inside explicit grid rows */
+.row-cards-equal > [class*="col"] {
+  display: flex;
+  flex-direction: column;
+}
+
+.row-cards-equal > [class*="col"] > .chart-card,
+.row-cards-equal > [class*="col"] > .kpi-card {
+  flex: 1;
+  height: 100%;
+}
+
+.chart-canvas-wrap {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  max-height: 240px;
+}
+
+.chart-canvas-wrap.chart-sm {
+  height: 200px;
+  max-height: 200px;
+}
+
+.chart-card h6 {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--primary-dark);
+}
+
+.recommendation-item {
+  border-left: 4px solid var(--accent);
+  background: #fff8e1;
+  padding: 1rem;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 0.75rem;
+}
+
+.recommendation-item.high {
+  border-left-color: var(--danger);
+  background: #ffebee;
+}
+
+.recommendation-item.medium {
+  border-left-color: var(--warning);
+}
+
+.anomaly-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.severity-high {
+  background: #ffcdd2;
+  color: var(--danger);
+}
+
+.severity-medium {
+  background: #fff9c4;
+  color: #f57f17;
+}
+
+.severity-low {
+  background: #c8e6c9;
+  color: var(--success);
+}
+
+.severity-critical {
+  background: #b71c1c;
+  color: #fff;
+  font-weight: 600;
+}
+
+.consumer-sidebar-list {
+  max-height: 50vh;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.consumer-detail-section {
+  border-top: 2px solid #e3f2fd;
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+}
+
+.nav-tabs-dashboard .nav-link {
+  color: var(--primary);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+}
+
+.nav-tabs-dashboard .nav-link.active {
+  background: var(--primary);
+  color: #fff;
+  border-radius: 8px 8px 0 0;
+}
+
+.table-dashboard tbody tr {
+  height: auto;
+}
+
+.table-dashboard td,
+.table-dashboard th {
+  padding: 0.5rem 0.75rem;
+  vertical-align: middle;
+}
+
+.appliance-tip-cell {
+  max-width: 280px;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.consumer-sidebar-item {
+  display: block;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.35rem;
+  border-radius: 8px;
+  color: #cfd8dc;
+  text-decoration: none;
+  font-size: 0.8rem;
+  border: 1px solid transparent;
+}
+
+.consumer-sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.consumer-sidebar-item.active {
+  background: rgba(255, 111, 0, 0.2);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.bg-success-subtle {
+  background-color: #e8f5e9 !important;
+}
+
+.energy-score-ring {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: conic-gradient(var(--success) calc(var(--score) * 1%), #e0e0e0 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.energy-score-ring[style*="width:56px"]::before {
+  width: 42px;
+  height: 42px;
+  font-size: 0.9rem;
+}
+
+.energy-score-ring::before {
+  content: attr(data-score);
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--success);
+}
+
+.table-dashboard {
+  font-size: 0.9rem;
+}
+
+.table-dashboard thead {
+  background: #e3f2fd;
+}
+
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: 40px repeat(24, 1fr);
+  gap: 2px;
+  font-size: 0.65rem;
+}
+
+.heatmap-cell {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  min-width: 12px;
+}
+
+.footer-utility {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 992px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+}
