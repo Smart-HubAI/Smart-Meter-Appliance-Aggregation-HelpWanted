@@ -6,7 +6,8 @@ import os
 import json
 import logging
 import time
-
+from dotenv import load_dotenv
+load_dotenv()
 # ── Load API key from Windows environment ──
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
@@ -33,10 +34,8 @@ SELECTED_MODEL = None
 
 # Preferred models in priority order
 _PREFERRED_MODELS = [
-    "llama-3.3-70b-versatile",
-    "llama-3.1-70b-versatile",
-    "qwen-qwq-32b",
-    "deepseek-r1-distill-llama-70b",
+    "openai/gpt-oss-120b",
+    "qwen/qwen3.6-27b",
 ]
 
 

@@ -2,7 +2,7 @@
 AI-Powered Smart Meter Energy Disaggregation and Consumer Analytics Platform
 Flask application entry point for Tata Power–style utility analytics.
 """
-
+#work done by valen
 import json
 import os
 from datetime import datetime, timedelta, timezone
