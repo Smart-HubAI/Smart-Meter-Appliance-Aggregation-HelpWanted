@@ -37,6 +37,11 @@ export default function Login() {
 
   return (
     <div className="login-page">
+      <div className="floating-shapes">
+        <div className="floating-shape"></div>
+        <div className="floating-shape"></div>
+        <div className="floating-shape"></div>
+      </div>
       <div className="login-card">
         <div className="login-header">
           <i className="bi bi-lightning-charge-fill text-warning"></i>
@@ -45,24 +50,24 @@ export default function Login() {
         </div>
 
         {error && (
-          <div className="alert alert-danger py-2 mb-3">
+          <div className="alert alert-danger py-2 mb-3 border-0 shadow-sm">
             <i className="bi bi-exclamation-triangle-fill me-1"></i> {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="username" className="form-label">
+            <label htmlFor="username" className="form-label fw-semibold small text-secondary">
               Username
             </label>
             <div className="input-group">
-              <span className="input-group-text">
-                <i className="bi bi-person"></i>
+              <span className="input-group-text bg-light border-end-0">
+                <i className="bi bi-person text-muted"></i>
               </span>
               <input
                 type="text"
                 id="username"
-                className="form-control"
+                className="form-control border-start-0 ps-0"
                 placeholder="Enter username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -73,17 +78,17 @@ export default function Login() {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="password" className="form-label">
+            <label htmlFor="password" className="form-label fw-semibold small text-secondary">
               Password
             </label>
             <div className="input-group">
-              <span className="input-group-text">
-                <i className="bi bi-lock"></i>
+              <span className="input-group-text bg-light border-end-0">
+                <i className="bi bi-lock text-muted"></i>
               </span>
               <input
                 type="password"
                 id="password"
-                className="form-control"
+                className="form-control border-start-0 ps-0"
                 placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

@@ -281,7 +281,7 @@ export default function Admin() {
     }
   };
 
-  if (loading) return <DashboardLayout brandIcon="bi-building" brandTitle="Utility Admin" brandSubtitle="Loading…" navItems={navItems}><p className="text-muted">Loading utility dashboard…</p></DashboardLayout>;
+  if (loading) return <DashboardLayout brandIcon="bi-building" brandTitle="Utility Admin" brandSubtitle="Loading…" navItems={navItems}><div className="chart-card text-center py-5"><div className="spinner-border text-primary mb-3" role="status"></div><p className="text-muted mb-0">Loading utility dashboard…</p></div></DashboardLayout>;
   if (error || !data) return <DashboardLayout brandIcon="bi-building" brandTitle="Utility Admin" brandSubtitle="Error" navItems={navItems}><div className="alert alert-danger">{error || "Failed to load admin data"}<button type="button" className="btn btn-sm btn-outline-danger ms-2" onClick={load}>Retry</button></div></DashboardLayout>;
 
   return (
@@ -353,40 +353,40 @@ export default function Admin() {
       </div>
 
       {/* Summary Cards */}
-      <div className="row g-4 mb-4">
+      <div className="row g-3 mb-4">
         <div className="col" onClick={() => {resetFilters(); setCtSeverityFilter("Critical");}} style={{cursor:"pointer"}}>
-          <div className="card border-0 shadow-sm text-center py-3 rounded-4" style={{ backgroundColor: ctSeverityFilter==="Critical" ? '#ffebee':'#fff'}}>
+          <div className="kpi-card danger text-center" style={{ backgroundColor: ctSeverityFilter==="Critical" ? '#ffebee':'var(--bg-card)'}}>
             <h3 className="text-danger mb-0 fw-bold">{criticalCases}</h3>
             <small className="text-muted fw-bold">Critical Cases</small>
           </div>
         </div>
         <div className="col" onClick={() => {resetFilters(); setCtStatusFilter("Open");}} style={{cursor:"pointer"}}>
-          <div className="card border-0 shadow-sm text-center py-3 rounded-4" style={{ backgroundColor: ctStatusFilter==="Open" ? '#fff8e1':'#fff'}}>
+          <div className="kpi-card accent text-center" style={{ backgroundColor: ctStatusFilter==="Open" ? '#fff8e1':'var(--bg-card)'}}>
             <h3 className="text-warning mb-0 fw-bold">{openInv}</h3>
             <small className="text-muted fw-bold">Open Alerts</small>
           </div>
         </div>
         <div className="col" onClick={() => {resetFilters(); setCtStatusFilter("Assigned");}} style={{cursor:"pointer"}}>
-          <div className="card border-0 shadow-sm text-center py-3 rounded-4" style={{ backgroundColor: ctStatusFilter==="Assigned" ? '#e3f2fd':'#fff'}}>
+          <div className="kpi-card text-center" style={{ backgroundColor: ctStatusFilter==="Assigned" ? '#e3f2fd':'var(--bg-card)', borderLeftColor: 'var(--info)'}}>
             <h3 className="text-primary mb-0 fw-bold">{assignedInv}</h3>
             <small className="text-muted fw-bold">Assigned</small>
           </div>
         </div>
         <div className="col" onClick={() => {resetFilters(); setCtStatusFilter("In Progress");}} style={{cursor:"pointer"}}>
-          <div className="card border-0 shadow-sm text-center py-3 rounded-4" style={{ backgroundColor: ctStatusFilter==="In Progress" ? '#fff3e0':'#fff'}}>
+          <div className="kpi-card text-center" style={{ backgroundColor: ctStatusFilter==="In Progress" ? '#fff3e0':'var(--bg-card)', borderLeftColor: '#fd7e14'}}>
             <h3 className="mb-0 fw-bold" style={{color: '#fd7e14'}}>{inProgressInv}</h3>
             <small className="text-muted fw-bold">In Progress</small>
           </div>
         </div>
         <div className="col" onClick={() => {resetFilters(); setCtStatusFilter("Resolved");}} style={{cursor:"pointer"}}>
-          <div className="card border-0 shadow-sm text-center py-3 rounded-4" style={{ backgroundColor: ctStatusFilter==="Resolved" ? '#e8f5e9':'#fff'}}>
+          <div className="kpi-card success text-center" style={{ backgroundColor: ctStatusFilter==="Resolved" ? '#e8f5e9':'var(--bg-card)'}}>
             <h3 className="text-success mb-0 fw-bold">{resolvedToday}</h3>
             <small className="text-muted fw-bold">Resolved Today</small>
           </div>
         </div>
       </div>
 
-      <div className="iq-section mb-5 shadow-sm" style={{ borderRadius: '12px', overflow: 'hidden' }}>
+      <div className="iq-section mb-5 shadow-sm border" style={{ borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
         <div className="iq-section-header bg-white border-bottom p-4">
           <h5 className="mb-0 fw-bold"><i className="bi bi-shield-exclamation me-2 text-danger"></i>Operational Alerts &amp; Anomaly Intelligence <span className="badge bg-danger ms-2 fs-6">{filteredCT.length} / {anomalyData.length}</span></h5>
         </div>

@@ -50,6 +50,24 @@ export default function DashboardLayout({
 
   return (
     <div className="dashboard-wrapper dashboard-page">
+      <button
+        className="sidebar-toggle"
+        onClick={() => {
+          const sidebar = document.querySelector('.sidebar');
+          const overlay = document.querySelector('.sidebar-overlay');
+          sidebar?.classList.toggle('open');
+          overlay?.classList.toggle('active');
+        }}
+        aria-label="Toggle navigation"
+      >
+        <i className="bi bi-list"></i>
+      </button>
+      <div className="sidebar-overlay" onClick={() => {
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+        sidebar?.classList.remove('open');
+        overlay?.classList.remove('active');
+      }}></div>
       <aside className="sidebar">
         <div className="sidebar-brand">
           <h5>
@@ -63,6 +81,12 @@ export default function DashboardLayout({
               key={item.to}
               to={item.to}
               className={`nav-link ${location.pathname.startsWith(item.match || item.to) ? "active" : ""}`}
+              onClick={() => {
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                sidebar?.classList.remove('open');
+                overlay?.classList.remove('active');
+              }}
             >
               <i className={`bi ${item.icon}`}></i> {item.label}
             </Link>

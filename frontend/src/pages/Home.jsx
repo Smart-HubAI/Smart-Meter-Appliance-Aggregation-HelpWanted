@@ -13,34 +13,40 @@ export default function Home() {
             <Link className="nav-link" to="/consumer">Consumer Dashboard</Link>
             <Link className="nav-link" to="/admin">Admin Dashboard</Link>
             <Link className="nav-link" to="/ai">AI Models</Link>
-            <Link className="nav-link" to="/validation">Validation</Link>
           </div>
         </div>
       </nav>
 
       <section className="hero-section">
+        <div className="floating-shapes">
+          <div className="floating-shape"></div>
+          <div className="floating-shape"></div>
+          <div className="floating-shape"></div>
+        </div>
         <div className="container position-relative" style={{ zIndex: 1 }}>
           <div className="row align-items-center">
             <div className="col-lg-8">
-              <span className="badge bg-warning text-dark mb-3">Smart Meter Intelligence Platform</span>
-              <h1 className="display-4 fw-bold mb-3">
+              <span className="hero-badge mb-3">
+                <i className="bi bi-star-fill text-warning"></i> Smart Meter Intelligence Platform
+              </span>
+              <h1 className="hero-title mb-3">
                 AI-Powered Smart Meter Energy Disaggregation &amp; Consumer Analytics
               </h1>
-              <p className="lead mb-4 opacity-90">
+              <p className="hero-subtitle mb-4">
                 Professional Tata Power–style utility operations platform. 100 consumers, 288,000 AMI
                 readings, ML disaggregation, fraud detection, revenue risk scoring, and operational prioritization.
               </p>
-              <div className="d-flex flex-wrap gap-3">
-                <Link to="/consumer" className="btn btn-primary-custom btn-lg">
+              <div className="hero-actions">
+                <Link to="/consumer" className="btn-hero-primary">
                   <i className="bi bi-person-circle"></i> Consumer Dashboard
                 </Link>
-                <Link to="/admin" className="btn btn-outline-light btn-lg">
+                <Link to="/admin" className="btn-hero-outline">
                   <i className="bi bi-building"></i> Utility Admin
                 </Link>
               </div>
             </div>
             <div className="col-lg-4 d-none d-lg-block text-center">
-              <i className="bi bi-speedometer2" style={{ fontSize: "10rem", opacity: 0.3 }}></i>
+              <i className="bi bi-speedometer2" style={{ fontSize: "12rem", opacity: 0.2 }}></i>
             </div>
           </div>
         </div>
@@ -61,8 +67,8 @@ export default function Home() {
             ["bi-people", "100 Consumer Fleet", "Segmented residential profiles with realistic appliance simulation."],
           ].map(([icon, title, desc]) => (
             <div className="col-md-6 col-lg-4" key={title}>
-              <div className="card feature-card p-4">
-                <div className="feature-icon mb-3"><i className={`bi ${icon}`}></i></div>
+              <div className="feature-card">
+                <div className="feature-icon"><i className={`bi ${icon}`}></i></div>
                 <h5>{title}</h5>
                 <p className="text-muted mb-0">{desc}</p>
               </div>

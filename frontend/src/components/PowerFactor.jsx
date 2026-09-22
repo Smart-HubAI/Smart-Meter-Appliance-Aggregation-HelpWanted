@@ -45,7 +45,7 @@ const thresholdBandsPlugin = {
     ctx.save();
     
     const drawBand = (yMin, yMax, color) => {
-      // Ensure we don't go outside the chart area
+      // Ensure we don't go outside the chart area of the y-axis
       const maxY = Math.min(yMax, y.max);
       const minY = Math.max(yMin, y.min);
       if (minY >= maxY) return;

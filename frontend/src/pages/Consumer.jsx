@@ -200,14 +200,17 @@ export default function Consumer() {
       )}
 
       {tab === "fleet" && !isConsumer && (
-        <div className="bg-white rounded-4 shadow-sm p-4 border-0">
+        <div className="chart-card">
           <h5 className="mb-4 fw-bold"><i className="bi bi-table me-2 text-primary"></i> Consumer Fleet Overview</h5>
           {loadingSummary ? (
-            <p className="text-muted mb-0">Loading consumer fleet…</p>
+            <div className="d-flex align-items-center justify-content-center py-5">
+              <div className="spinner-border text-primary me-3" role="status"></div>
+              <p className="text-muted mb-0">Loading consumer fleet…</p>
+            </div>
           ) : (
             <div className="table-responsive">
               <table className="table table-hover align-middle mb-0">
-                <thead className="table-light">
+                <thead>
                   <tr>
                     <th className="py-3 text-muted fw-semibold">ID</th>
                     <th className="py-3 text-muted fw-semibold">Name</th>
@@ -218,7 +221,7 @@ export default function Consumer() {
                     <th className="py-3"></th>
                   </tr>
                 </thead>
-                <tbody className="border-top-0">
+                <tbody>
                   {summary.map((row) => (
                     <tr key={row.consumer_id} className={row.consumer_id === selectedId ? "bg-primary bg-opacity-10" : ""}>
                       <td className="fw-bold">{row.consumer_id}</td>
@@ -280,7 +283,7 @@ export default function Consumer() {
             {/* Row 2: Deep Dive Analytics (Charts) */}
             <div className="row g-4 mb-4">
               <div className="col-12">
-                <div className="bg-white rounded-4 shadow-sm p-4 border-0">
+                <div className="chart-card">
                   <div className="d-flex justify-content-between align-items-center mb-4">
                     <h5 className="fw-bold mb-0"><i className="bi bi-graph-up text-primary me-2"></i> Daily Consumption Trend</h5>
                   </div>
@@ -305,7 +308,7 @@ export default function Consumer() {
               </div>
 
               <div className="col-12">
-                <div className="bg-white rounded-4 shadow-sm p-4 border-0 d-flex flex-column align-items-center">
+                <div className="chart-card d-flex flex-column">
                   <div className="w-100 d-flex justify-content-between align-items-center mb-2">
                     <h5 className="fw-bold mb-0"><i className="bi bi-pie-chart-fill text-primary me-2"></i> Appliance Breakdown</h5>
                     {data.ai_confidence > 0 && (() => {
@@ -328,7 +331,7 @@ export default function Consumer() {
                       );
                     })()}
                   </div>
-                  <div className="w-100 mt-4">
+                  <div className="w-100 mt-4 flex-grow-1">
                     <NILMApplianceChart applianceDetails={data.appliance_details} />
                   </div>
                 </div>
@@ -336,11 +339,11 @@ export default function Consumer() {
             </div>
 
             {/* Row 3: Appliance Deep Dive Table */}
-            <div className="bg-white rounded-4 shadow-sm p-4 border-0 mb-4">
+            <div className="chart-card mb-4">
               <h5 className="fw-bold mb-4"><i className="bi bi-cpu-fill text-primary me-2"></i> Appliance Intelligence & Status</h5>
               <div className="table-responsive">
                 <table className="table table-hover align-middle mb-0">
-                  <thead className="table-light">
+                  <thead>
                     <tr>
                       <th className="py-3 text-muted fw-semibold">Appliance</th>
                       <th className="py-3 text-muted fw-semibold">Energy (kWh)</th>
@@ -351,7 +354,7 @@ export default function Consumer() {
                       <th className="py-3 text-muted fw-semibold w-25">AI Recommendation</th>
                     </tr>
                   </thead>
-                  <tbody className="border-top-0">
+                  <tbody>
                     {(data.appliance_details || []).map((app, idx) => {
                       const st = getApplianceStatus(app.pct, app.typical_pct);
                       return (
@@ -386,7 +389,7 @@ export default function Consumer() {
             <div className="row g-4 mb-4">
               {pfData && pfData.readings && (
                 <div className="col-xl-12">
-                  <div className="bg-white rounded-4 shadow-sm p-4 border-0">
+                  <div className="chart-card">
                     <h5 className="fw-bold mb-4"><i className="bi bi-activity text-primary me-2"></i> Power Quality (PF) Trend</h5>
                     {pfData.summary.status !== 'Excellent' && (
                       <div className={`alert ${pfData.summary.status === 'Critical' ? 'alert-danger' : 'alert-warning'} rounded-3 d-flex align-items-center border-0 shadow-sm mb-4`}>
@@ -430,7 +433,7 @@ export default function Consumer() {
             {/* Row 5: Financial Breakdown & Sustainability */}
             <div className="row g-4">
               <div className="col-xl-6">
-                <div className="bg-white rounded-4 shadow-sm p-4 border-0 h-100">
+                <div className="chart-card h-100">
                   <div className="d-flex justify-content-between align-items-center mb-4">
                     <h5 className="fw-bold mb-0"><i className="bi bi-receipt text-primary me-2"></i> Bill Breakdown</h5>
                     <span className="badge bg-light text-dark border rounded-pill px-3 py-2">
@@ -483,7 +486,7 @@ export default function Consumer() {
               </div>
               
               <div className="col-xl-6">
-                <div className="bg-white rounded-4 shadow-sm p-4 border-0 mb-4">
+                <div className="chart-card mb-4 h-100">
                   <h5 className="fw-bold mb-4"><i className="bi bi-robot text-primary me-2"></i> AI Savings Opportunities</h5>
                   {aiSavings.length === 0 ? <p className="text-muted">No active savings opportunities.</p> : (
                     <div className="d-flex flex-column gap-3">
